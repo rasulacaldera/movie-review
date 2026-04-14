@@ -6,6 +6,7 @@ export interface MovieSummary {
   title: string;
   year: number | null;
   posterPath: string | null;
+  backdropPath: string | null;
   tmdbRating: number;
   releaseDate: string;
   genres: string[];

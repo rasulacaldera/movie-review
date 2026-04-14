@@ -50,10 +50,10 @@ export function MovieSection({
           onRetry={onRetry}
         />
       )}
-      {movies && movies.length > 0 && layout === "carousel" && (
+      {!error && movies && movies.length > 0 && layout === "carousel" && (
         <MovieCarousel movies={movies} />
       )}
-      {movies && movies.length > 0 && layout === "grid" && (
+      {!error && movies && movies.length > 0 && layout === "grid" && (
         <MovieGrid movies={movies} />
       )}
     </section>

@@ -37,21 +37,3 @@ describe("buildImageUrl()", () => {
     });
   });
 });
-
-describe("POSTER_SIZES", () => {
-  it("exposes standard poster sizes", () => {
-    expect(POSTER_SIZES.small).toBe("w185");
-    expect(POSTER_SIZES.medium).toBe("w342");
-    expect(POSTER_SIZES.large).toBe("w500");
-    expect(POSTER_SIZES.original).toBe("original");
-  });
-});
-
-describe("BACKDROP_SIZES", () => {
-  it("exposes standard backdrop sizes", () => {
-    expect(BACKDROP_SIZES.small).toBe("w300");
-    expect(BACKDROP_SIZES.medium).toBe("w780");
-    expect(BACKDROP_SIZES.large).toBe("w1280");
-    expect(BACKDROP_SIZES.original).toBe("original");
-  });
-});

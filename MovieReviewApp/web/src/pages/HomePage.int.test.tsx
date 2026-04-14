@@ -15,6 +15,7 @@ function makeMovie(overrides: Partial<MovieSummary> = {}): MovieSummary {
     title: "Fight Club",
     year: 1999,
     posterPath: "/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg",
+    backdropPath: "/hZkgoQYus5dXo3H8T7Uef6DNknx.jpg",
     tmdbRating: 8.4,
     releaseDate: "1999-10-15",
     genres: ["Drama"],
@@ -161,14 +162,16 @@ describe("<HomePage/>", () => {
       expect(within(banner).getByText("Inception")).toBeInTheDocument();
     });
 
-    it("renders the hero banner backdrop image", async () => {
+    it("renders the hero banner backdrop image using the backdrop size", async () => {
       renderHomePage();
 
       await waitFor(() => {
         expect(screen.getByTestId("hero-banner")).toBeInTheDocument();
       });
 
-      expect(screen.getByAltText("Inception backdrop")).toBeInTheDocument();
+      const img = screen.getByAltText("Inception backdrop");
+      expect(img).toBeInTheDocument();
+      expect(img).toHaveAttribute("src", expect.stringContaining("/w1280/"));
     });
 
     it("renders the hero banner rating", async () => {

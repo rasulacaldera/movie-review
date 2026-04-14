@@ -21,10 +21,10 @@ export function HeroBanner({ movie, imageBaseUrl, isLoading }: HeroBannerProps) 
   }
 
   const backdropUrl =
-    imageBaseUrl && movie.posterPath
+    imageBaseUrl && movie.backdropPath
       ? buildImageUrl({
           baseUrl: imageBaseUrl,
-          path: movie.posterPath,
+          path: movie.backdropPath,
           size: BACKDROP_SIZES.large,
         })
       : null;
