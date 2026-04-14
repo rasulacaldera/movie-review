@@ -97,4 +97,4 @@ stateDiagram-v2
 
 | Integration | Purpose | Status |
 |-------------|---------|--------|
-| TMDB API | Movie catalog data (titles, posters, metadata) | Planned |
+| TMDB API | Movie catalog data (titles, posters, metadata) | Active — see ADR-006 |
