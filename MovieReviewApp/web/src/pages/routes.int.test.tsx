@@ -1,10 +1,40 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { http, HttpResponse } from "msw";
+import { setupServer } from "msw/node";
 import { routeConfig } from "~/router.js";
 
+// Minimal msw handlers so pages that use React Query don't crash
+const emptyPaginated = { results: [], page: 1, totalPages: 0, totalResults: 0 };
+const imageConfig = {
+  baseUrl: "https://image.tmdb.org/t/p/",
+  posterSizes: ["w500"],
+  backdropSizes: ["w1280"],
+};
+
+const server = setupServer(
+  http.get("/api/movies/popular", () => HttpResponse.json(emptyPaginated)),
+  http.get("/api/movies/now-playing", () => HttpResponse.json(emptyPaginated)),
+  http.get("/api/movies/upcoming", () => HttpResponse.json(emptyPaginated)),
+  http.get("/api/movies/top-rated", () => HttpResponse.json(emptyPaginated)),
+  http.get("/api/movies/configuration", () => HttpResponse.json(imageConfig)),
+);
+
+beforeAll(() => server.listen({ onUnhandledRequest: "bypass" }));
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
 function renderRoute(path: string) {
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false } },
+  });
   const router = createMemoryRouter(routeConfig, { initialEntries: [path] });
-  return render(<RouterProvider router={router} />);
+  return render(
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>,
+  );
 }
 
 describe("Route stubs", () => {
@@ -14,7 +44,7 @@ describe("Route stubs", () => {
 
       await waitFor(() => {
         expect(
-          screen.getByRole("heading", { name: "Home" }),
+          screen.getByLabelText("Loading featured movie"),
         ).toBeInTheDocument();
       });
     });
