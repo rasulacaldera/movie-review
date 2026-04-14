@@ -11,6 +11,7 @@ App-specific architectural decisions. For cross-cutting decisions, see `docs/adr
 | 003 | [Frontend: React 19 + Vite + React Query](003-frontend-stack.md) | Accepted |
 | 004 | [Testing: Vitest + Testing Library + Playwright](004-testing-strategy.md) | Accepted |
 | 005 | [Repository-Service architecture pattern](005-repository-service-pattern.md) | Accepted |
+| 006 | [External API Gateway pattern](006-external-api-gateway-pattern.md) | Accepted |
 
 ## Creating a New ADR
 
