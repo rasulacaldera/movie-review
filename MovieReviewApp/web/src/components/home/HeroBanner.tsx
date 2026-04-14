@@ -15,7 +15,11 @@ interface HeroBannerProps {
 }
 
 /** Full-width hero banner with backdrop image, title, rating, and detail link. */
-export function HeroBanner({ movie, imageBaseUrl, isLoading }: HeroBannerProps) {
+export function HeroBanner({
+  movie,
+  imageBaseUrl,
+  isLoading,
+}: HeroBannerProps) {
   if (isLoading || !movie) {
     return <HeroBannerSkeleton />;
   }

@@ -35,7 +35,9 @@ export function MovieSection({
   onRetry,
 }: MovieSectionProps) {
   return (
-    <section data-testid={`section-${title.toLowerCase().replace(/\s+/g, "-")}`}>
+    <section
+      data-testid={`section-${title.toLowerCase().replace(/\s+/g, "-")}`}
+    >
       <div className="mb-4">
         {seeAllHref !== undefined ? (
           <SectionHeader title={title} href={seeAllHref} />

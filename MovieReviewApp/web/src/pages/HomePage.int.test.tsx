@@ -5,7 +5,11 @@ import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
 import HomePage from "~/pages/HomePage.js";
-import type { MovieSummary, PaginatedResult, ImageConfiguration } from "~/domains/movies/types.js";
+import type {
+  MovieSummary,
+  PaginatedResult,
+  ImageConfiguration,
+} from "~/domains/movies/types.js";
 
 // --- Test data ---
 
@@ -41,7 +45,12 @@ const popularMovies = [
 ];
 
 const nowPlayingMovies = [
-  makeMovie({ tmdbId: 10, title: "Dune Part Two", year: 2024, tmdbRating: 8.2 }),
+  makeMovie({
+    tmdbId: 10,
+    title: "Dune Part Two",
+    year: 2024,
+    tmdbRating: 8.2,
+  }),
   makeMovie({ tmdbId: 11, title: "Oppenheimer", year: 2023, tmdbRating: 8.5 }),
 ];
 
@@ -63,8 +72,18 @@ const upcomingMovies = [
 ];
 
 const topRatedMovies = [
-  makeMovie({ tmdbId: 30, title: "The Shawshank Redemption", year: 1994, tmdbRating: 9.3 }),
-  makeMovie({ tmdbId: 31, title: "The Godfather", year: 1972, tmdbRating: 9.2 }),
+  makeMovie({
+    tmdbId: 30,
+    title: "The Shawshank Redemption",
+    year: 1994,
+    tmdbRating: 9.3,
+  }),
+  makeMovie({
+    tmdbId: 31,
+    title: "The Godfather",
+    year: 1972,
+    tmdbRating: 9.2,
+  }),
 ];
 
 const imageConfig: ImageConfiguration = {
@@ -88,9 +107,7 @@ const handlers = [
   http.get("/api/movies/top-rated", () =>
     HttpResponse.json(makePaginatedResult(topRatedMovies)),
   ),
-  http.get("/api/movies/configuration", () =>
-    HttpResponse.json(imageConfig),
-  ),
+  http.get("/api/movies/configuration", () => HttpResponse.json(imageConfig)),
 ];
 
 const server = setupServer(...handlers);
@@ -269,7 +286,9 @@ describe("<HomePage/>", () => {
       renderHomePage();
 
       await waitFor(() => {
-        expect(screen.getByLabelText("Dune Part Two (2024)")).toBeInTheDocument();
+        expect(
+          screen.getByLabelText("Dune Part Two (2024)"),
+        ).toBeInTheDocument();
       });
 
       const duneLink = screen.getByLabelText("Dune Part Two (2024)");
@@ -382,10 +401,7 @@ describe("<HomePage/>", () => {
         http.get("/api/movies/popular", () => {
           callCount++;
           if (callCount <= 1) {
-            return HttpResponse.json(
-              { error: "Bad Gateway" },
-              { status: 502 },
-            );
+            return HttpResponse.json({ error: "Bad Gateway" }, { status: 502 });
           }
           return HttpResponse.json(makePaginatedResult(popularMovies));
         }),

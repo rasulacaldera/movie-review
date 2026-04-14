@@ -1,4 +1,8 @@
-import { buildImageUrl, POSTER_SIZES, BACKDROP_SIZES } from "~/domains/movies/image.js";
+import {
+  buildImageUrl,
+  POSTER_SIZES,
+  BACKDROP_SIZES,
+} from "~/domains/movies/image.js";
 
 describe("buildImageUrl()", () => {
   const baseUrl = "https://image.tmdb.org/t/p/";
