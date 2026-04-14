@@ -41,14 +41,20 @@ describe("<Navbar/>", () => {
       renderWithRouter();
 
       expect(screen.getByRole("link", { name: "Home" })).toBeInTheDocument();
-      expect(screen.getByRole("link", { name: "Coming Soon" })).toBeInTheDocument();
-      expect(screen.getByRole("link", { name: "Top Rated" })).toBeInTheDocument();
+      expect(
+        screen.getByRole("link", { name: "Coming Soon" }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("link", { name: "Top Rated" }),
+      ).toBeInTheDocument();
     });
 
     it("displays a Sign In button", () => {
       renderWithRouter();
 
-      expect(screen.getByRole("button", { name: "Sign In" })).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: "Sign In" }),
+      ).toBeInTheDocument();
     });
   });
 
@@ -60,7 +66,9 @@ describe("<Navbar/>", () => {
       const comingSoonLink = screen.getByRole("link", { name: "Coming Soon" });
       await user.click(comingSoonLink);
 
-      expect(screen.getByRole("heading", { name: "Coming Soon" })).toBeInTheDocument();
+      expect(
+        screen.getByRole("heading", { name: "Coming Soon" }),
+      ).toBeInTheDocument();
     });
   });
 });

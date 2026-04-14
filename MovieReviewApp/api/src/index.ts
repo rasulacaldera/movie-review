@@ -15,8 +15,5 @@ const moviesService = MoviesService.create(tmdbGateway);
 const app = createApp({ moviesService });
 
 app.listen(config.PORT, config.HOST, () => {
-  logger.info(
-    { port: config.PORT, host: config.HOST },
-    "Server started",
-  );
+  logger.info({ port: config.PORT, host: config.HOST }, "Server started");
 });

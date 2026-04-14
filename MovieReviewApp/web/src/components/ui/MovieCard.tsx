@@ -18,7 +18,13 @@ interface MovieCardProps {
 }
 
 /** Card displaying a movie poster, title, year, and rating badge. Links to movie detail. */
-export function MovieCard({ tmdbId, title, year, posterPath, tmdbRating }: MovieCardProps) {
+export function MovieCard({
+  tmdbId,
+  title,
+  year,
+  posterPath,
+  tmdbRating,
+}: MovieCardProps) {
   return (
     <Link
       to={`/movie/${tmdbId}`}

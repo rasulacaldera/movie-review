@@ -27,7 +27,11 @@ export function StarRating({ rating, maxStars = 5 }: StarRatingProps) {
   });
 
   return (
-    <div className="flex items-center gap-1" role="img" aria-label={`Rating: ${rating} out of 10`}>
+    <div
+      className="flex items-center gap-1"
+      role="img"
+      aria-label={`Rating: ${rating} out of 10`}
+    >
       <div className="flex">
         {stars.map((type, i) => (
           <span key={i} data-testid={`star-${type}`}>

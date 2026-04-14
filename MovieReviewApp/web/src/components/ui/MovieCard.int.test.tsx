@@ -2,7 +2,9 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { MovieCard } from "~/components/ui/MovieCard.js";
 
-function renderMovieCard(overrides: Partial<Parameters<typeof MovieCard>[0]> = {}) {
+function renderMovieCard(
+  overrides: Partial<Parameters<typeof MovieCard>[0]> = {},
+) {
   const defaultProps = {
     tmdbId: 550,
     title: "Inception",
@@ -52,7 +54,9 @@ describe("<MovieCard/>", () => {
     it("displays a placeholder image", () => {
       renderMovieCard({ posterPath: null, title: "No Poster" });
 
-      expect(screen.getByLabelText("No Poster poster placeholder")).toBeInTheDocument();
+      expect(
+        screen.getByLabelText("No Poster poster placeholder"),
+      ).toBeInTheDocument();
     });
   });
 

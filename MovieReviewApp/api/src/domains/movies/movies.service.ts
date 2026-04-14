@@ -65,11 +65,7 @@ export class MoviesService {
     return normalizeMovieList(raw);
   }
 
-  async getMovieDetail({
-    movieId,
-  }: {
-    movieId: number;
-  }): Promise<MovieDetail> {
+  async getMovieDetail({ movieId }: { movieId: number }): Promise<MovieDetail> {
     try {
       const raw = await this.gateway.getMovieDetail({ movieId });
       return normalizeMovieDetail(raw);
