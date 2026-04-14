@@ -50,6 +50,11 @@ describe("movies.normalizer", () => {
         expect(result.posterPath).toBe("/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg");
       });
 
+      it("keeps backdrop_path as a relative backdropPath", () => {
+        const result = normalizeMovieSummary(rawItem);
+        expect(result.backdropPath).toBe("/hZkgoQYus5dXo3H8T7Uef6DNknx.jpg");
+      });
+
       it("maps vote_average to tmdbRating", () => {
         const result = normalizeMovieSummary(rawItem);
         expect(result.tmdbRating).toBe(8.4);

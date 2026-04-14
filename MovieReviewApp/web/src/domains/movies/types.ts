@@ -1,4 +1,4 @@
-/** Domain types for the movies domain. camelCase, normalized from TMDB responses. */
+/** Frontend domain types for movies. Mirrors API response shapes. */
 
 /** Summary of a movie, used in list/search results. */
 export interface MovieSummary {
@@ -10,14 +10,6 @@ export interface MovieSummary {
   tmdbRating: number;
   releaseDate: string;
   genres: string[];
-}
-
-/** Paginated list response wrapper. */
-export interface PaginatedResult<T> {
-  results: T[];
-  page: number;
-  totalPages: number;
-  totalResults: number;
 }
 
 /** Full movie details. */
@@ -34,24 +26,12 @@ export interface MovieDetail {
   tmdbRating: number;
 }
 
-/** A cast member in a movie's credits. */
-export interface CastMember {
-  name: string;
-  character: string;
-  profilePath: string | null;
-}
-
-/** Normalized credits for a movie. */
-export interface MovieCredits {
-  cast: CastMember[];
-  director: string | null;
-}
-
-/** A YouTube trailer/video. */
-export interface MovieVideo {
-  name: string;
-  youtubeKey: string;
-  type: string;
+/** Paginated list response wrapper. */
+export interface PaginatedResult<T> {
+  results: T[];
+  page: number;
+  totalPages: number;
+  totalResults: number;
 }
 
 /** TMDB image configuration. */
