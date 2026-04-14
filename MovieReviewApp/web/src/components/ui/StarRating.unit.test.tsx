@@ -18,6 +18,12 @@ describe("<StarRating/>", () => {
 
       expect(screen.getByText("7.5")).toBeInTheDocument();
     });
+
+    it("exposes an accessible img role with the rating label", () => {
+      render(<StarRating rating={7.5} />);
+
+      expect(screen.getByRole("img", { name: /Rating: 7.5 out of 10/ })).toBeInTheDocument();
+    });
   });
 
   describe("when rating is 0", () => {

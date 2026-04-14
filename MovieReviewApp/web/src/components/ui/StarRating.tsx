@@ -1,5 +1,4 @@
 import { Star, StarHalf } from "lucide-react";
-import { cn } from "~/lib/utils.js";
 
 interface StarRatingProps {
   /** Rating on a 0-10 scale. */
@@ -28,18 +27,18 @@ export function StarRating({ rating, maxStars = 5 }: StarRatingProps) {
   });
 
   return (
-    <div className="flex items-center gap-1" aria-label={`Rating: ${rating} out of 10`}>
+    <div className="flex items-center gap-1" role="img" aria-label={`Rating: ${rating} out of 10`}>
       <div className="flex">
         {stars.map((type, i) => (
           <span key={i} data-testid={`star-${type}`}>
             {type === "full" && (
-              <Star className={cn("h-4 w-4 fill-rating text-rating")} />
+              <Star className="h-4 w-4 fill-rating text-rating" />
             )}
             {type === "half" && (
-              <StarHalf className={cn("h-4 w-4 fill-rating text-rating")} />
+              <StarHalf className="h-4 w-4 fill-rating text-rating" />
             )}
             {type === "empty" && (
-              <Star className={cn("h-4 w-4 text-muted-foreground")} />
+              <Star className="h-4 w-4 text-muted-foreground" />
             )}
           </span>
         ))}

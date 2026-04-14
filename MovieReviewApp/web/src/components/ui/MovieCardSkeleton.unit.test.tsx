@@ -6,9 +6,9 @@ describe("<MovieCardSkeleton/>", () => {
     it("displays animated placeholder for poster", () => {
       render(<MovieCardSkeleton />);
 
-      const skeleton = screen.getByTestId("movie-card-skeleton");
-      const posterPlaceholder = skeleton.querySelector(".animate-pulse.aspect-\\[2\\/3\\]");
+      const posterPlaceholder = screen.getByTestId("skeleton-poster");
       expect(posterPlaceholder).toBeInTheDocument();
+      expect(posterPlaceholder).toHaveClass("animate-pulse");
     });
 
     it("displays animated placeholder for title", () => {

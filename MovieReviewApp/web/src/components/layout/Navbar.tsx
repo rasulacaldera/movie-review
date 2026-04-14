@@ -9,6 +9,30 @@ const navLinks = [
   { to: "/top-rated", label: "Top Rated" },
 ] as const;
 
+function navLinkClassName({ isActive }: { isActive: boolean }) {
+  return cn(
+    "rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+    isActive
+      ? "bg-accent text-accent-foreground"
+      : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+  );
+}
+
+/** Reusable search input with icon. */
+function SearchInput() {
+  return (
+    <div className="relative">
+      <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+      <input
+        type="search"
+        placeholder="Search movies..."
+        aria-label="Search movies"
+        className="w-full rounded-lg border border-input bg-background py-2 pl-9 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+      />
+    </div>
+  );
+}
+
 /** Main navigation bar with logo, search, nav links, and sign in. */
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -24,15 +48,7 @@ export function Navbar() {
 
         {/* Search input — desktop */}
         <div className="mx-4 hidden flex-1 md:block md:max-w-md">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <input
-              type="search"
-              placeholder="Search movies..."
-              aria-label="Search movies"
-              className="w-full rounded-lg border border-input bg-background py-2 pl-9 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-            />
-          </div>
+          <SearchInput />
         </div>
 
         {/* Desktop nav links */}
@@ -42,14 +58,7 @@ export function Navbar() {
               key={link.to}
               to={link.to}
               end={link.to === "/"}
-              className={({ isActive }) =>
-                cn(
-                  "rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-                  isActive
-                    ? "bg-accent text-accent-foreground"
-                    : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
-                )
-              }
+              className={navLinkClassName}
             >
               {link.label}
             </NavLink>
@@ -69,6 +78,7 @@ export function Navbar() {
           onClick={() => setMobileMenuOpen((prev) => !prev)}
           aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-nav-menu"
         >
           {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
@@ -76,16 +86,10 @@ export function Navbar() {
 
       {/* Mobile menu */}
       {mobileMenuOpen && (
-        <div className="border-t border-border px-4 pb-4 md:hidden">
+        <div id="mobile-nav-menu" className="border-t border-border px-4 pb-4 md:hidden">
           {/* Search input — mobile */}
-          <div className="relative mt-3">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <input
-              type="search"
-              placeholder="Search movies..."
-              aria-label="Search movies"
-              className="w-full rounded-lg border border-input bg-background py-2 pl-9 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-            />
+          <div className="mt-3">
+            <SearchInput />
           </div>
 
           <div className="mt-3 flex flex-col gap-1">
@@ -95,14 +99,7 @@ export function Navbar() {
                 to={link.to}
                 end={link.to === "/"}
                 onClick={() => setMobileMenuOpen(false)}
-                className={({ isActive }) =>
-                  cn(
-                    "rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-                    isActive
-                      ? "bg-accent text-accent-foreground"
-                      : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
-                  )
-                }
+                className={navLinkClassName}
               >
                 {link.label}
               </NavLink>
