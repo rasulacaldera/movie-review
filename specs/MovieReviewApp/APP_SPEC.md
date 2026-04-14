@@ -30,6 +30,8 @@ A web application for browsing movies, writing reviews, and maintaining watchlis
 | TanStack React Query | 5.x | Server-state management |
 | React Hook Form | 7.x | Form state management |
 | React Router | 7.x | Client-side routing |
+| Tailwind CSS | 4.x | Utility-first CSS framework |
+| shadcn/ui patterns | — | Component patterns (cn(), CVA, design tokens) |
 | Zod | 3.24.x | Form validation |
 | Lucide | 0.475.x | Icons |
 | Vitest | 3.x | Testing |
@@ -144,29 +146,34 @@ MovieReviewApp/
 | 003 | [Frontend: React 19 + Vite + React Query](../../docs/MovieReviewApp/adr/003-frontend-stack.md) | Accepted |
 | 004 | [Testing: Vitest + Testing Library + Playwright](../../docs/MovieReviewApp/adr/004-testing-strategy.md) | Accepted |
 | 005 | [Repository-Service pattern](../../docs/MovieReviewApp/adr/005-repository-service-pattern.md) | Accepted |
+| 006 | [External API Gateway pattern](../../docs/MovieReviewApp/adr/006-external-api-gateway-pattern.md) | Accepted |
+| 007 | [CSS framework: Tailwind CSS + shadcn/ui](../../docs/MovieReviewApp/adr/007-css-framework.md) | Accepted |
 
 ## Phased Delivery
 
-### Phase 1: Scaffold (Current)
+### Phase 1: Foundation (Complete)
 
-- Runnable Express API with health endpoint
-- Runnable React app with React Query provider
+- Runnable Express API with health endpoint + TMDB integration (10 endpoints)
+- React app with Tailwind CSS, global layout, 6 base components, 7 routes
 - PostgreSQL via Docker Compose
 - Structured logging with Pino
-- CI-ready test configuration (vitest with passWithNoTests)
-- Full documentation: DOMAIN_GUIDE, GOTCHAS, APP_SPEC, 5 ADRs
+- 95+ tests (unit + integration), CI-ready
+- 7 ADRs documenting all architectural decisions
 
 ### Phase 2: Core Features (Next)
 
-- Movie catalog (CRUD + search)
-- User authentication
-- Review submission and display
-- Movie detail pages
+- Home page wired to TMDB API (now playing, popular, coming soon, top rated)
+- Movie detail page with full info, cast, trailers
+- Movie search with filters
+- Genre browsing
+- User authentication (Google + Facebook OAuth)
 
-### Phase 3: Enhanced Features (Future)
+### Phase 3: Social Features (Future)
 
+- Write and display reviews with star ratings
+- Comments on reviews
+- Review likes / helpful votes
 - Watchlist management
-- TMDB API integration for movie data
-- Review moderation
-- Ratings aggregation and display
-- User profiles
+- Release date reminders
+- User profiles and dashboard
+- Notification system
