@@ -1,5 +1,8 @@
 import { render, screen } from "@testing-library/react";
-import { MovieCardSkeleton, SkeletonGrid } from "~/components/ui/MovieCardSkeleton.js";
+import {
+  MovieCardSkeleton,
+  SkeletonGrid,
+} from "~/components/ui/MovieCardSkeleton.js";
 
 describe("<MovieCardSkeleton/>", () => {
   describe("when rendered", () => {
@@ -22,7 +25,9 @@ describe("<MovieCardSkeleton/>", () => {
       render(<MovieCardSkeleton />);
 
       expect(screen.getByTestId("skeleton-rating")).toBeInTheDocument();
-      expect(screen.getByTestId("skeleton-rating")).toHaveClass("animate-pulse");
+      expect(screen.getByTestId("skeleton-rating")).toHaveClass(
+        "animate-pulse",
+      );
     });
   });
 });

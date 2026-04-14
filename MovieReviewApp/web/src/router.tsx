@@ -11,7 +11,11 @@ const SearchPage = lazy(() => import("~/pages/SearchPage.js"));
 const NotFoundPage = lazy(() => import("~/pages/NotFoundPage.js"));
 
 function SuspenseWrapper({ children }: { children: React.ReactNode }) {
-  return <Suspense fallback={<div className="p-8">Loading...</div>}>{children}</Suspense>;
+  return (
+    <Suspense fallback={<div className="p-8">Loading...</div>}>
+      {children}
+    </Suspense>
+  );
 }
 
 export const routeConfig = [

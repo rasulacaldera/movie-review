@@ -15,8 +15,7 @@ export function requestContextMiddleware(
   next: NextFunction,
 ): void {
   const context: RequestContext = {
-    requestId:
-      (req.headers["x-request-id"] as string) ?? crypto.randomUUID(),
+    requestId: (req.headers["x-request-id"] as string) ?? crypto.randomUUID(),
   };
   storage.run(context, next);
 }
@@ -25,9 +24,7 @@ export function getRequestContext(): RequestContext | undefined {
   return storage.getStore();
 }
 
-export function updateRequestContext(
-  patch: Partial<RequestContext>,
-): void {
+export function updateRequestContext(patch: Partial<RequestContext>): void {
   const ctx = storage.getStore();
   if (ctx) Object.assign(ctx, patch);
 }

@@ -15,7 +15,9 @@ describe("<SectionHeader/>", () => {
     it("displays the heading", () => {
       renderSectionHeader({ title: "Popular Movies", href: "/movies/popular" });
 
-      expect(screen.getByRole("heading", { name: "Popular Movies" })).toBeInTheDocument();
+      expect(
+        screen.getByRole("heading", { name: "Popular Movies" }),
+      ).toBeInTheDocument();
     });
 
     it("displays a See All link pointing to the href", () => {
@@ -31,13 +33,17 @@ describe("<SectionHeader/>", () => {
     it("displays the heading", () => {
       renderSectionHeader({ title: "Search Results" });
 
-      expect(screen.getByRole("heading", { name: "Search Results" })).toBeInTheDocument();
+      expect(
+        screen.getByRole("heading", { name: "Search Results" }),
+      ).toBeInTheDocument();
     });
 
     it("does not display a See All link", () => {
       renderSectionHeader({ title: "Search Results" });
 
-      expect(screen.queryByRole("link", { name: /See All/i })).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("link", { name: /See All/i }),
+      ).not.toBeInTheDocument();
     });
   });
 });

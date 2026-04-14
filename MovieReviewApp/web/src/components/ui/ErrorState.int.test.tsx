@@ -19,7 +19,9 @@ describe("<ErrorState/>", () => {
     it("displays a Try Again button", () => {
       render(<ErrorState message="Failed to load movies" onRetry={() => {}} />);
 
-      expect(screen.getByRole("button", { name: "Try Again" })).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: "Try Again" }),
+      ).toBeInTheDocument();
     });
 
     it("calls onRetry when Try Again is clicked", async () => {
@@ -37,7 +39,9 @@ describe("<ErrorState/>", () => {
     it("does not display a Try Again button", () => {
       render(<ErrorState message="Something went wrong" />);
 
-      expect(screen.queryByRole("button", { name: "Try Again" })).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("button", { name: "Try Again" }),
+      ).not.toBeInTheDocument();
     });
   });
 });

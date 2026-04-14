@@ -11,10 +11,17 @@ interface EmptyStateProps {
 }
 
 /** Displays an empty state with an icon, message, and optional call to action. */
-export function EmptyState({ message, actionLabel, actionHref }: EmptyStateProps) {
+export function EmptyState({
+  message,
+  actionLabel,
+  actionHref,
+}: EmptyStateProps) {
   return (
     <div className="flex flex-col items-center gap-3 py-12 text-center">
-      <Inbox className="h-10 w-10 text-muted-foreground" data-testid="empty-icon" />
+      <Inbox
+        className="h-10 w-10 text-muted-foreground"
+        data-testid="empty-icon"
+      />
       <p className="text-sm font-medium text-foreground">{message}</p>
       {actionLabel !== undefined && actionHref !== undefined && (
         <Link

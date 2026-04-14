@@ -288,7 +288,15 @@ describe("movies.normalizer", () => {
         const raw: TmdbImageConfiguration = {
           images: {
             secure_base_url: "https://image.tmdb.org/t/p/",
-            poster_sizes: ["w92", "w154", "w185", "w342", "w500", "w780", "original"],
+            poster_sizes: [
+              "w92",
+              "w154",
+              "w185",
+              "w342",
+              "w500",
+              "w780",
+              "original",
+            ],
             backdrop_sizes: ["w300", "w780", "w1280", "original"],
           },
         };
@@ -297,10 +305,19 @@ describe("movies.normalizer", () => {
 
         expect(result.baseUrl).toBe("https://image.tmdb.org/t/p/");
         expect(result.posterSizes).toEqual([
-          "w92", "w154", "w185", "w342", "w500", "w780", "original",
+          "w92",
+          "w154",
+          "w185",
+          "w342",
+          "w500",
+          "w780",
+          "original",
         ]);
         expect(result.backdropSizes).toEqual([
-          "w300", "w780", "w1280", "original",
+          "w300",
+          "w780",
+          "w1280",
+          "original",
         ]);
       });
     });

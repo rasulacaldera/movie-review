@@ -24,7 +24,9 @@ describe("<Layout/>", () => {
     it("renders a navbar at the top", () => {
       renderLayout();
 
-      expect(screen.getByRole("navigation", { name: "Main navigation" })).toBeInTheDocument();
+      expect(
+        screen.getByRole("navigation", { name: "Main navigation" }),
+      ).toBeInTheDocument();
     });
 
     it("renders a main content area", () => {

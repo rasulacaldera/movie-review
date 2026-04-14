@@ -13,7 +13,9 @@ describe("Route stubs", () => {
       renderRoute("/");
 
       await waitFor(() => {
-        expect(screen.getByRole("heading", { name: "Home" })).toBeInTheDocument();
+        expect(
+          screen.getByRole("heading", { name: "Home" }),
+        ).toBeInTheDocument();
       });
     });
   });
@@ -23,7 +25,9 @@ describe("Route stubs", () => {
       renderRoute("/coming-soon");
 
       await waitFor(() => {
-        expect(screen.getByRole("heading", { name: "Coming Soon" })).toBeInTheDocument();
+        expect(
+          screen.getByRole("heading", { name: "Coming Soon" }),
+        ).toBeInTheDocument();
       });
     });
   });
@@ -33,7 +37,9 @@ describe("Route stubs", () => {
       renderRoute("/top-rated");
 
       await waitFor(() => {
-        expect(screen.getByRole("heading", { name: "Top Rated" })).toBeInTheDocument();
+        expect(
+          screen.getByRole("heading", { name: "Top Rated" }),
+        ).toBeInTheDocument();
       });
     });
   });
@@ -43,7 +49,9 @@ describe("Route stubs", () => {
       renderRoute("/popular");
 
       await waitFor(() => {
-        expect(screen.getByRole("heading", { name: "Popular" })).toBeInTheDocument();
+        expect(
+          screen.getByRole("heading", { name: "Popular" }),
+        ).toBeInTheDocument();
       });
     });
   });
@@ -53,7 +61,9 @@ describe("Route stubs", () => {
       renderRoute("/movie/550");
 
       await waitFor(() => {
-        expect(screen.getByRole("heading", { name: "Movie Detail" })).toBeInTheDocument();
+        expect(
+          screen.getByRole("heading", { name: "Movie Detail" }),
+        ).toBeInTheDocument();
       });
     });
   });
@@ -63,7 +73,9 @@ describe("Route stubs", () => {
       renderRoute("/search");
 
       await waitFor(() => {
-        expect(screen.getByRole("heading", { name: "Search Results" })).toBeInTheDocument();
+        expect(
+          screen.getByRole("heading", { name: "Search Results" }),
+        ).toBeInTheDocument();
       });
     });
   });
@@ -73,7 +85,9 @@ describe("Route stubs", () => {
       renderRoute("/this-does-not-exist");
 
       await waitFor(() => {
-        expect(screen.getByRole("heading", { name: "404" })).toBeInTheDocument();
+        expect(
+          screen.getByRole("heading", { name: "404" }),
+        ).toBeInTheDocument();
       });
     });
   });

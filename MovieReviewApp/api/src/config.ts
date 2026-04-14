@@ -11,7 +11,9 @@ const envSchema = z.object({
   NODE_ENV: z
     .enum(["development", "production", "test"])
     .default("development"),
-  TMDB_READ_ACCESS_TOKEN: z.string().min(1, "TMDB_READ_ACCESS_TOKEN is required"),
+  TMDB_READ_ACCESS_TOKEN: z
+    .string()
+    .min(1, "TMDB_READ_ACCESS_TOKEN is required"),
   TMDB_BASE_URL: z.string().url().default("https://api.themoviedb.org/3"),
 });
 

@@ -22,7 +22,9 @@ describe("<StarRating/>", () => {
     it("exposes an accessible img role with the rating label", () => {
       render(<StarRating rating={7.5} />);
 
-      expect(screen.getByRole("img", { name: /Rating: 7.5 out of 10/ })).toBeInTheDocument();
+      expect(
+        screen.getByRole("img", { name: /Rating: 7.5 out of 10/ }),
+      ).toBeInTheDocument();
     });
   });
 

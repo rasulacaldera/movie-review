@@ -38,10 +38,16 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <nav aria-label="Main navigation" className="border-b border-border bg-card">
+    <nav
+      aria-label="Main navigation"
+      className="border-b border-border bg-card"
+    >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 text-lg font-bold text-foreground">
+        <Link
+          to="/"
+          className="flex items-center gap-2 text-lg font-bold text-foreground"
+        >
           <Film className="h-6 w-6 text-primary" />
           <span>MovieReview</span>
         </Link>
@@ -80,13 +86,20 @@ export function Navbar() {
           aria-expanded={mobileMenuOpen}
           aria-controls="mobile-nav-menu"
         >
-          {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          {mobileMenuOpen ? (
+            <X className="h-6 w-6" />
+          ) : (
+            <Menu className="h-6 w-6" />
+          )}
         </button>
       </div>
 
       {/* Mobile menu */}
       {mobileMenuOpen && (
-        <div id="mobile-nav-menu" className="border-t border-border px-4 pb-4 md:hidden">
+        <div
+          id="mobile-nav-menu"
+          className="border-t border-border px-4 pb-4 md:hidden"
+        >
           {/* Search input — mobile */}
           <div className="mt-3">
             <SearchInput />

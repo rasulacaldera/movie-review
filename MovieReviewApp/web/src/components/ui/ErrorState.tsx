@@ -11,7 +11,10 @@ interface ErrorStateProps {
 export function ErrorState({ message, onRetry }: ErrorStateProps) {
   return (
     <div className="flex flex-col items-center gap-3 py-12 text-center">
-      <AlertCircle className="h-10 w-10 text-destructive" data-testid="error-icon" />
+      <AlertCircle
+        className="h-10 w-10 text-destructive"
+        data-testid="error-icon"
+      />
       <p className="text-sm font-medium text-foreground">{message}</p>
       {onRetry !== undefined && (
         <button

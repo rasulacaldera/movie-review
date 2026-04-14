@@ -134,10 +134,10 @@ export class TmdbGateway {
     query: string;
     page?: number;
   }): Promise<TmdbPaginatedResponse<TmdbMovieListItem>> {
-    return this.get<TmdbPaginatedResponse<TmdbMovieListItem>>(
-      "/search/movie",
-      { query, page: String(page) },
-    );
+    return this.get<TmdbPaginatedResponse<TmdbMovieListItem>>("/search/movie", {
+      query,
+      page: String(page),
+    });
   }
 
   /** Fetch TMDB image configuration (base URLs and sizes). */
@@ -171,10 +171,7 @@ export class TmdbGateway {
         signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
       });
     } catch (error) {
-      if (
-        error instanceof DOMException &&
-        error.name === "TimeoutError"
-      ) {
+      if (error instanceof DOMException && error.name === "TimeoutError") {
         logger.error({ path }, "TMDB request timed out");
         throw new TmdbTimeoutError();
       }

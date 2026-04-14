@@ -25,9 +25,7 @@ function tmdbMovieListItem(overrides: Record<string, unknown> = {}) {
   };
 }
 
-function tmdbPaginatedResponse(
-  overrides: Record<string, unknown> = {},
-) {
+function tmdbPaginatedResponse(overrides: Record<string, unknown> = {}) {
   return {
     results: [tmdbMovieListItem()],
     page: 1,
@@ -60,9 +58,7 @@ const tmdbCredits = {
       profile_path: "/profile.jpg",
     },
   ],
-  crew: [
-    { name: "David Fincher", job: "Director", department: "Directing" },
-  ],
+  crew: [{ name: "David Fincher", job: "Director", department: "Directing" }],
 };
 
 const tmdbVideos = {
@@ -115,9 +111,7 @@ const handlers = [
     }
 
     if (page === 2) {
-      return HttpResponse.json(
-        tmdbPaginatedResponse({ page: 2 }),
-      );
+      return HttpResponse.json(tmdbPaginatedResponse({ page: 2 }));
     }
 
     return HttpResponse.json(tmdbPaginatedResponse());
@@ -127,7 +121,10 @@ const handlers = [
   ),
   http.get(`${TMDB_BASE_URL}/movie/999999999`, () =>
     HttpResponse.json(
-      { status_code: 34, status_message: "The resource you requested could not be found." },
+      {
+        status_code: 34,
+        status_message: "The resource you requested could not be found.",
+      },
       { status: 404 },
     ),
   ),
@@ -152,9 +149,7 @@ const handlers = [
       return HttpResponse.json(tmdbPaginatedResponse({ results: [] }));
     }
 
-    return HttpResponse.json(
-      tmdbPaginatedResponse({ page }),
-    );
+    return HttpResponse.json(tmdbPaginatedResponse({ page }));
   }),
   http.get(`${TMDB_BASE_URL}/configuration`, () =>
     HttpResponse.json(tmdbConfiguration),
@@ -361,9 +356,7 @@ describe("Movies Router", () => {
   describe("GET /api/movies/search", () => {
     describe("when searching with a valid query", () => {
       it("returns a paginated list of matching movies", async () => {
-        const res = await request(app).get(
-          "/api/movies/search?q=inception",
-        );
+        const res = await request(app).get("/api/movies/search?q=inception");
 
         expect(res.status).toBe(200);
         expect(res.body.results).toHaveLength(1);
@@ -373,9 +366,7 @@ describe("Movies Router", () => {
 
     describe("when searching with pagination", () => {
       it("returns the specified page", async () => {
-        const res = await request(app).get(
-          "/api/movies/search?q=the&page=2",
-        );
+        const res = await request(app).get("/api/movies/search?q=the&page=2");
 
         expect(res.status).toBe(200);
         expect(res.body.page).toBe(2);
@@ -405,11 +396,7 @@ describe("Movies Router", () => {
           "w500",
           "original",
         ]);
-        expect(res.body.backdropSizes).toEqual([
-          "w300",
-          "w780",
-          "original",
-        ]);
+        expect(res.body.backdropSizes).toEqual(["w300", "w780", "original"]);
       });
     });
   });
@@ -450,11 +437,13 @@ describe("Movies Router", () => {
     describe("when TMDB API returns malformed JSON", () => {
       it("returns 502 bad gateway", async () => {
         server.use(
-          http.get(`${TMDB_BASE_URL}/movie/popular`, () =>
-            new HttpResponse("not json {{{", {
-              status: 200,
-              headers: { "Content-Type": "application/json" },
-            }),
+          http.get(
+            `${TMDB_BASE_URL}/movie/popular`,
+            () =>
+              new HttpResponse("not json {{{", {
+                status: 200,
+                headers: { "Content-Type": "application/json" },
+              }),
           ),
         );
 
