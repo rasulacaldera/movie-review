@@ -4,6 +4,8 @@
  */
 
 import { TmdbGateway } from "../../infrastructure/tmdb/tmdb.gateway.js";
+import { TmdbNotFoundError } from "../../infrastructure/tmdb/tmdb.errors.js";
+import { MovieNotFoundError } from "./errors.js";
 import {
   normalizeMovieList,
   normalizeMovieDetail,
@@ -68,8 +70,15 @@ export class MoviesService {
   }: {
     movieId: number;
   }): Promise<MovieDetail> {
-    const raw = await this.gateway.getMovieDetail({ movieId });
-    return normalizeMovieDetail(raw);
+    try {
+      const raw = await this.gateway.getMovieDetail({ movieId });
+      return normalizeMovieDetail(raw);
+    } catch (error) {
+      if (error instanceof TmdbNotFoundError) {
+        throw new MovieNotFoundError(movieId);
+      }
+      throw error;
+    }
   }
 
   async getMovieCredits({
@@ -77,8 +86,15 @@ export class MoviesService {
   }: {
     movieId: number;
   }): Promise<MovieCredits> {
-    const raw = await this.gateway.getMovieCredits({ movieId });
-    return normalizeCredits(raw);
+    try {
+      const raw = await this.gateway.getMovieCredits({ movieId });
+      return normalizeCredits(raw);
+    } catch (error) {
+      if (error instanceof TmdbNotFoundError) {
+        throw new MovieNotFoundError(movieId);
+      }
+      throw error;
+    }
   }
 
   async getMovieVideos({
@@ -86,8 +102,15 @@ export class MoviesService {
   }: {
     movieId: number;
   }): Promise<MovieVideo[]> {
-    const raw = await this.gateway.getMovieVideos({ movieId });
-    return normalizeVideos(raw);
+    try {
+      const raw = await this.gateway.getMovieVideos({ movieId });
+      return normalizeVideos(raw);
+    } catch (error) {
+      if (error instanceof TmdbNotFoundError) {
+        throw new MovieNotFoundError(movieId);
+      }
+      throw error;
+    }
   }
 
   async getSimilarMovies({
@@ -97,8 +120,15 @@ export class MoviesService {
     movieId: number;
     page: number;
   }): Promise<PaginatedResult<MovieSummary>> {
-    const raw = await this.gateway.getSimilarMovies({ movieId, page });
-    return normalizeMovieList(raw);
+    try {
+      const raw = await this.gateway.getSimilarMovies({ movieId, page });
+      return normalizeMovieList(raw);
+    } catch (error) {
+      if (error instanceof TmdbNotFoundError) {
+        throw new MovieNotFoundError(movieId);
+      }
+      throw error;
+    }
   }
 
   async searchMovies({

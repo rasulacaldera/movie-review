@@ -8,8 +8,8 @@ import {
   TmdbUnavailableError,
   TmdbTimeoutError,
   TmdbMalformedResponseError,
-  MovieNotFoundError,
-} from "../../domains/movies/errors.js";
+  TmdbNotFoundError,
+} from "./tmdb.errors.js";
 import type {
   TmdbPaginatedResponse,
   TmdbMovieListItem,
@@ -183,10 +183,7 @@ export class TmdbGateway {
     }
 
     if (response.status === 404) {
-      // Extract movie ID from paths like /movie/12345
-      const movieIdMatch = path.match(/^\/movie\/(\d+)/);
-      const movieId = movieIdMatch ? parseInt(movieIdMatch[1]!, 10) : 0;
-      throw new MovieNotFoundError(movieId);
+      throw new TmdbNotFoundError(`TMDB resource not found: ${path}`);
     }
 
     if (!response.ok) {

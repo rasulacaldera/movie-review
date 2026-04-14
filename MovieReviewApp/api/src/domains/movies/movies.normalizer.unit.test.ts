@@ -50,9 +50,9 @@ describe("movies.normalizer", () => {
         expect(result.posterPath).toBe("/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg");
       });
 
-      it("maps vote_average to rating", () => {
+      it("maps vote_average to tmdbRating", () => {
         const result = normalizeMovieSummary(rawItem);
-        expect(result.rating).toBe(8.4);
+        expect(result.tmdbRating).toBe(8.4);
       });
 
       it("maps release_date to releaseDate", () => {

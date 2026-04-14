@@ -43,7 +43,7 @@ export function normalizeMovieSummary(item: TmdbMovieListItem): MovieSummary {
     title: item.title,
     year: extractYear(item.release_date),
     posterPath: item.poster_path,
-    rating: item.vote_average,
+    tmdbRating: item.vote_average,
     releaseDate: item.release_date,
     genres: mapGenreIds(item.genre_ids),
   };

@@ -2,7 +2,7 @@ import { describe, it, expect, beforeAll, afterAll, afterEach } from "vitest";
 import { http, HttpResponse, delay } from "msw";
 import { setupServer } from "msw/node";
 import request from "supertest";
-import { createTestApp } from "../../app.js";
+import { createApp } from "../../app.js";
 import { MoviesService } from "./movies.service.js";
 import { TmdbGateway } from "../../infrastructure/tmdb/tmdb.gateway.js";
 import type { Express } from "express";
@@ -103,11 +103,11 @@ const handlers = [
     const url = new URL(req.url);
     const page = parseInt(url.searchParams.get("page") ?? "1", 10);
 
-    if (page === 9999) {
+    if (page === 499) {
       return HttpResponse.json(
         tmdbPaginatedResponse({
           results: [],
-          page: 9999,
+          page: 499,
           total_pages: 5,
           total_results: 100,
         }),
@@ -175,7 +175,7 @@ beforeAll(() => {
     readAccessToken: "test-token",
   });
   const service = MoviesService.create(gateway);
-  app = createTestApp({ moviesService: service });
+  app = createApp({ moviesService: service });
 });
 
 afterEach(() => {
@@ -209,7 +209,7 @@ describe("Movies Router", () => {
         expect(movie.title).toBe("Fight Club");
         expect(movie.year).toBe(1999);
         expect(movie.posterPath).toBe("/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg");
-        expect(movie.rating).toBe(8.4);
+        expect(movie.tmdbRating).toBe(8.4);
       });
     });
   });
@@ -246,11 +246,11 @@ describe("Movies Router", () => {
 
     describe("when requesting out-of-range page", () => {
       it("returns an empty results list with pagination info", async () => {
-        const res = await request(app).get("/api/movies/popular?page=9999");
+        const res = await request(app).get("/api/movies/popular?page=499");
 
         expect(res.status).toBe(200);
         expect(res.body.results).toEqual([]);
-        expect(res.body.page).toBe(9999);
+        expect(res.body.page).toBe(499);
         expect(res.body.totalPages).toBeDefined();
       });
     });
@@ -292,6 +292,24 @@ describe("Movies Router", () => {
 
         expect(res.status).toBe(404);
         expect(res.body.error).toMatch(/not found/i);
+      });
+    });
+
+    describe("when requesting with a non-numeric movieId", () => {
+      it("returns 400 validation error", async () => {
+        const res = await request(app).get("/api/movies/abc");
+
+        expect(res.status).toBe(400);
+        expect(res.body.error).toBe("Validation error");
+      });
+    });
+
+    describe("when requesting with a negative movieId", () => {
+      it("returns 400 validation error", async () => {
+        const res = await request(app).get("/api/movies/-1");
+
+        expect(res.status).toBe(400);
+        expect(res.body.error).toBe("Validation error");
       });
     });
   });
