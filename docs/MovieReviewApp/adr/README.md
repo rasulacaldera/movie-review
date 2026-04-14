@@ -12,6 +12,7 @@ App-specific architectural decisions. For cross-cutting decisions, see `docs/adr
 | 004 | [Testing: Vitest + Testing Library + Playwright](004-testing-strategy.md) | Accepted |
 | 005 | [Repository-Service architecture pattern](005-repository-service-pattern.md) | Accepted |
 | 006 | [External API Gateway pattern](006-external-api-gateway-pattern.md) | Accepted |
+| 007 | [CSS framework: Tailwind CSS + shadcn/ui](007-css-framework.md) | Accepted |
 
 ## Creating a New ADR
 
