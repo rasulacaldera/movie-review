@@ -1,0 +1,4 @@
+packages:
+  - "MovieReviewApp/api"
+  - "MovieReviewApp/web"
+  - "MovieReviewApp/packages/*"

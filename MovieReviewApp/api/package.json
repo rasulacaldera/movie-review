@@ -1,0 +1,37 @@
+{
+  "name": "@movie-review/api",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc --project tsconfig.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:unit": "vitest run --config vitest.config.ts",
+    "test:int": "vitest run --config vitest.int.config.ts",
+    "test:watch": "vitest",
+    "lint": "prettier --check src/",
+    "clean": "rm -rf dist",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "drizzle-orm": "^0.40.0",
+    "postgres": "^3.4.5",
+    "zod": "^3.24.2",
+    "pino": "^9.6.0",
+    "pino-pretty": "^13.0.0",
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.2",
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.2",
+    "vitest": "^3.1.1",
+    "drizzle-kit": "^0.30.5"
+  }
+}

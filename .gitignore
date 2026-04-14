@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+.turbo/
+
+# Environment
+.env
+.env.local
+.env.*.local
+.env.production
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/settings.json
+.idea/
+
+# Test coverage
+coverage/
+
+# Drizzle Studio artifacts (migration files in drizzle/ ARE committed)
+drizzle/meta/.snapshot
+
+# Git worktrees
+.worktrees/
+.claude/settings.local.json
+
+# Personal infra setup notes (keep locally, not in repo)
+FootieAdminApp/INFRA_SETUP.md
