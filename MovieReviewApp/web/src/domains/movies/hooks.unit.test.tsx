@@ -11,6 +11,7 @@ import {
   useMovieVideos,
   useSimilarMovies,
   useImageConfig,
+  isValidYoutubeKey,
 } from "~/domains/movies/hooks.js";
 
 function createWrapper() {
@@ -338,6 +339,7 @@ describe("useMovieCredits()", () => {
   const mockCredits = {
     cast: [
       {
+        id: 4,
         name: "Brad Pitt",
         character: "Tyler Durden",
         profilePath: "/brad.jpg",
@@ -397,14 +399,18 @@ describe("useMovieVideos()", () => {
   describe("when the API succeeds", () => {
     it("returns only videos with type Trailer or Teaser", async () => {
       const allVideos = [
-        { name: "Official Trailer", youtubeKey: "abc", type: "Trailer" },
-        { name: "Teaser", youtubeKey: "def", type: "Teaser" },
+        {
+          name: "Official Trailer",
+          youtubeKey: "abcDEF12345",
+          type: "Trailer",
+        },
+        { name: "Teaser", youtubeKey: "defGHI67890", type: "Teaser" },
         {
           name: "Behind the Scenes",
-          youtubeKey: "ghi",
+          youtubeKey: "ghiJKL11111",
           type: "Behind the Scenes",
         },
-        { name: "Featurette", youtubeKey: "jkl", type: "Featurette" },
+        { name: "Featurette", youtubeKey: "jklMNO22222", type: "Featurette" },
       ];
 
       globalThis.fetch = vi.fn().mockResolvedValue({
@@ -423,6 +429,36 @@ describe("useMovieVideos()", () => {
       expect(result.current.data).toHaveLength(2);
       expect(result.current.data?.[0].type).toBe("Trailer");
       expect(result.current.data?.[1].type).toBe("Teaser");
+    });
+
+    it("filters out trailers with invalid YouTube keys", async () => {
+      const videos = [
+        { name: "Valid Trailer", youtubeKey: "qtRKdVHc-cE", type: "Trailer" },
+        {
+          name: "XSS Attempt",
+          youtubeKey: 'abc"><script>alert(1)</script>',
+          type: "Trailer",
+        },
+        { name: "Too Short", youtubeKey: "abc", type: "Trailer" },
+        { name: "Valid Teaser", youtubeKey: "abcDEF12345", type: "Teaser" },
+      ];
+
+      globalThis.fetch = vi.fn().mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve(videos),
+      });
+
+      const { result } = renderHook(() => useMovieVideos(550), {
+        wrapper: createWrapper(),
+      });
+
+      await waitFor(() => {
+        expect(result.current.isSuccess).toBe(true);
+      });
+
+      expect(result.current.data).toHaveLength(2);
+      expect(result.current.data?.[0].name).toBe("Valid Trailer");
+      expect(result.current.data?.[1].name).toBe("Valid Teaser");
     });
   });
 
@@ -578,6 +614,40 @@ describe("useImageConfig()", () => {
       rerender();
 
       expect(globalThis.fetch).toHaveBeenCalledTimes(1);
+    });
+  });
+});
+
+describe("isValidYoutubeKey()", () => {
+  describe("when given a valid 11-character YouTube key", () => {
+    it("returns true for a standard key", () => {
+      expect(isValidYoutubeKey("qtRKdVHc-cE")).toBe(true);
+    });
+
+    it("returns true for a key with underscores and dashes", () => {
+      expect(isValidYoutubeKey("abc_DEF-123")).toBe(true);
+    });
+  });
+
+  describe("when given an invalid YouTube key", () => {
+    it("returns false for an empty string", () => {
+      expect(isValidYoutubeKey("")).toBe(false);
+    });
+
+    it("returns false for a key that is too short", () => {
+      expect(isValidYoutubeKey("abc123")).toBe(false);
+    });
+
+    it("returns false for a key that is too long", () => {
+      expect(isValidYoutubeKey("abcDEF123456")).toBe(false);
+    });
+
+    it("returns false for a key with special characters", () => {
+      expect(isValidYoutubeKey('abc"><script')).toBe(false);
+    });
+
+    it("returns false for a key with spaces", () => {
+      expect(isValidYoutubeKey("abc DEF 123")).toBe(false);
     });
   });
 });

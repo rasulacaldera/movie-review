@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
-import MovieDetailPage from "~/pages/MovieDetailPage.js";
+import MovieDetailPage from "~/pages/MovieDetailPage/index.js";
 import type {
   MovieDetail,
   MovieCredits,
@@ -37,16 +37,19 @@ function makeCredits(overrides: Partial<MovieCredits> = {}): MovieCredits {
   return {
     cast: [
       {
+        id: 4,
         name: "Brad Pitt",
         character: "Tyler Durden",
         profilePath: "/brad.jpg",
       },
       {
+        id: 5,
         name: "Edward Norton",
         character: "The Narrator",
         profilePath: "/edward.jpg",
       },
       {
+        id: 6,
         name: "Helena Bonham Carter",
         character: "Marla Singer",
         profilePath: null,
@@ -60,10 +63,10 @@ function makeCredits(overrides: Partial<MovieCredits> = {}): MovieCredits {
 function makeVideos(): MovieVideo[] {
   return [
     { name: "Official Trailer", youtubeKey: "qtRKdVHc-cE", type: "Trailer" },
-    { name: "Official Teaser", youtubeKey: "abc123", type: "Teaser" },
+    { name: "Official Teaser", youtubeKey: "abcDEF12345", type: "Teaser" },
     {
       name: "Behind the Scenes",
-      youtubeKey: "xyz789",
+      youtubeKey: "xyz789ABCDE",
       type: "Behind the Scenes",
     },
   ];
@@ -119,7 +122,10 @@ const defaultHandlers = [
 
 const server = setupServer(...defaultHandlers);
 
-beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
+beforeAll(() => {
+  window.scrollTo = vi.fn() as unknown as typeof window.scrollTo;
+  server.listen({ onUnhandledRequest: "error" });
+});
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
@@ -156,6 +162,17 @@ function renderMovieDetailPage(movieId = "550") {
 // --- Tests ---
 
 describe("<MovieDetailPage/>", () => {
+  // --- Scroll to top ---
+  describe("when the page renders", () => {
+    it("scrolls to the top of the page", async () => {
+      renderMovieDetailPage();
+
+      await waitFor(() => {
+        expect(window.scrollTo).toHaveBeenCalledWith(0, 0);
+      });
+    });
+  });
+
   // --- Hero Section ---
   describe("when the movie detail API returns data", () => {
     it("displays the movie title", async () => {
@@ -339,6 +356,14 @@ describe("<MovieDetailPage/>", () => {
       });
     });
 
+    it("displays cast member profile images with descriptive alt text", async () => {
+      renderMovieDetailPage();
+
+      await waitFor(() => {
+        expect(screen.getByAltText("Photo of Brad Pitt")).toBeInTheDocument();
+      });
+    });
+
     it("displays the director prominently", async () => {
       renderMovieDetailPage();
 
@@ -454,7 +479,11 @@ describe("<MovieDetailPage/>", () => {
       server.use(
         http.get("/api/movies/:id/videos", () =>
           HttpResponse.json([
-            { name: "BTS", youtubeKey: "xyz", type: "Behind the Scenes" },
+            {
+              name: "BTS",
+              youtubeKey: "xyz789ABCDE",
+              type: "Behind the Scenes",
+            },
           ]),
         ),
       );

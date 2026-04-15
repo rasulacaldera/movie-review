@@ -67,9 +67,19 @@ export function useMovieCredits(id: number) {
 /** Video types shown in the trailers section. */
 const TRAILER_TYPES = new Set(["Trailer", "Teaser"]);
 
-/** Filters videos to trailers and teasers only. */
+/** YouTube video IDs are exactly 11 characters of alphanumeric, dash, or underscore. */
+const YOUTUBE_KEY_REGEX = /^[a-zA-Z0-9_-]{11}$/;
+
+/** Validates that a string is a safe YouTube video ID. */
+export function isValidYoutubeKey(key: string): boolean {
+  return YOUTUBE_KEY_REGEX.test(key);
+}
+
+/** Filters videos to trailers and teasers with valid YouTube keys only. */
 function filterTrailers(videos: MovieVideo[]): MovieVideo[] {
-  return videos.filter((v) => TRAILER_TYPES.has(v.type));
+  return videos.filter(
+    (v) => TRAILER_TYPES.has(v.type) && isValidYoutubeKey(v.youtubeKey),
+  );
 }
 
 /** Fetches YouTube videos for a movie, filtered to trailers and teasers. */

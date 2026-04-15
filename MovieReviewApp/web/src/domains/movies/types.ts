@@ -36,6 +36,7 @@ export interface PaginatedResult<T> {
 
 /** A cast member in a movie's credits. */
 export interface CastMember {
+  id: number;
   name: string;
   character: string;
   profilePath: string | null;
