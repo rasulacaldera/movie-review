@@ -1,4 +1,4 @@
-import { fetchApi } from "~/lib/api.js";
+import { fetchApi, ApiError } from "~/lib/api.js";
 
 describe("fetchApi()", () => {
   const originalFetch = globalThis.fetch;
@@ -22,7 +22,7 @@ describe("fetchApi()", () => {
   });
 
   describe("when the response is not OK", () => {
-    it("throws an error with the status", async () => {
+    it("throws an ApiError with the status", async () => {
       globalThis.fetch = vi.fn().mockResolvedValue({
         ok: false,
         status: 502,
@@ -33,5 +33,32 @@ describe("fetchApi()", () => {
         "API error: 502 Bad Gateway",
       );
     });
+
+    it("throws an instance of ApiError with the HTTP status code", async () => {
+      globalThis.fetch = vi.fn().mockResolvedValue({
+        ok: false,
+        status: 404,
+        statusText: "Not Found",
+      });
+
+      try {
+        await fetchApi("/api/test");
+        expect.fail("Expected ApiError to be thrown");
+      } catch (error) {
+        expect(error).toBeInstanceOf(ApiError);
+        expect((error as ApiError).status).toBe(404);
+      }
+    });
+  });
+});
+
+describe("ApiError", () => {
+  it("extends Error and exposes status", () => {
+    const error = new ApiError(404, "Not Found");
+
+    expect(error).toBeInstanceOf(Error);
+    expect(error.name).toBe("ApiError");
+    expect(error.status).toBe(404);
+    expect(error.message).toBe("API error: 404 Not Found");
   });
 });

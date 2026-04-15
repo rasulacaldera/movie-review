@@ -8,6 +8,14 @@ export const POSTER_SIZES = {
   original: "original",
 } as const;
 
+/** Common profile photo sizes available from TMDB. */
+export const PROFILE_SIZES = {
+  small: "w45",
+  medium: "w185",
+  large: "h632",
+  original: "original",
+} as const;
+
 /** Common backdrop sizes available from TMDB. */
 export const BACKDROP_SIZES = {
   small: "w300",

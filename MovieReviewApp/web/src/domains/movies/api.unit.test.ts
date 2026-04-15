@@ -4,6 +4,9 @@ import {
   fetchUpcomingMovies,
   fetchTopRatedMovies,
   fetchMovieDetails,
+  fetchMovieCredits,
+  fetchMovieVideos,
+  fetchSimilarMovies,
   fetchImageConfig,
 } from "~/domains/movies/api.js";
 
@@ -99,6 +102,52 @@ describe("movies API functions", () => {
 
       expect(globalThis.fetch).toHaveBeenCalledWith("/api/movies/550");
       expect(result).toEqual(mockDetail);
+    });
+  });
+
+  describe("fetchMovieCredits()", () => {
+    it("calls /api/movies/:id/credits and returns parsed response", async () => {
+      const mockCredits = {
+        cast: [
+          {
+            name: "Brad Pitt",
+            character: "Tyler Durden",
+            profilePath: "/brad.jpg",
+          },
+        ],
+        director: "David Fincher",
+      };
+      stubFetch(mockCredits);
+
+      const result = await fetchMovieCredits(550);
+
+      expect(globalThis.fetch).toHaveBeenCalledWith("/api/movies/550/credits");
+      expect(result).toEqual(mockCredits);
+    });
+  });
+
+  describe("fetchMovieVideos()", () => {
+    it("calls /api/movies/:id/videos and returns parsed response", async () => {
+      const mockVideos = [
+        { name: "Official Trailer", youtubeKey: "abc123", type: "Trailer" },
+      ];
+      stubFetch(mockVideos);
+
+      const result = await fetchMovieVideos(550);
+
+      expect(globalThis.fetch).toHaveBeenCalledWith("/api/movies/550/videos");
+      expect(result).toEqual(mockVideos);
+    });
+  });
+
+  describe("fetchSimilarMovies()", () => {
+    it("calls /api/movies/:id/similar and returns parsed response", async () => {
+      stubFetch(mockPaginatedResponse);
+
+      const result = await fetchSimilarMovies(550);
+
+      expect(globalThis.fetch).toHaveBeenCalledWith("/api/movies/550/similar");
+      expect(result).toEqual(mockPaginatedResponse);
     });
   });
 

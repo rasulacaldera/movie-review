@@ -34,6 +34,26 @@ export interface PaginatedResult<T> {
   totalResults: number;
 }
 
+/** A cast member in a movie's credits. */
+export interface CastMember {
+  name: string;
+  character: string;
+  profilePath: string | null;
+}
+
+/** Normalized credits for a movie. */
+export interface MovieCredits {
+  cast: CastMember[];
+  director: string | null;
+}
+
+/** A YouTube trailer/video associated with a movie. */
+export interface MovieVideo {
+  name: string;
+  youtubeKey: string;
+  type: string;
+}
+
 /** TMDB image configuration. */
 export interface ImageConfiguration {
   baseUrl: string;
