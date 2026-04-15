@@ -6,8 +6,13 @@ import {
   fetchNowPlayingMovies,
   fetchUpcomingMovies,
   fetchTopRatedMovies,
+  fetchMovieDetails,
+  fetchMovieCredits,
+  fetchMovieVideos,
+  fetchSimilarMovies,
   fetchImageConfig,
 } from "./api.js";
+import type { MovieVideo } from "./types.js";
 
 /** Fetches popular movies with React Query. */
 export function usePopularMovies(page = 1) {
@@ -38,6 +43,61 @@ export function useTopRatedMovies(page = 1) {
   return useQuery({
     queryKey: ["movies", "top-rated", page],
     queryFn: () => fetchTopRatedMovies(page),
+  });
+}
+
+/** Fetches full movie details by TMDB ID. */
+export function useMovieDetail(id: number) {
+  return useQuery({
+    queryKey: ["movies", "detail", id],
+    queryFn: () => fetchMovieDetails(id),
+    enabled: id > 0,
+  });
+}
+
+/** Fetches credits (cast + director) for a movie. */
+export function useMovieCredits(id: number) {
+  return useQuery({
+    queryKey: ["movies", "credits", id],
+    queryFn: () => fetchMovieCredits(id),
+    enabled: id > 0,
+  });
+}
+
+/** Video types shown in the trailers section. */
+const TRAILER_TYPES = new Set(["Trailer", "Teaser"]);
+
+/** YouTube video IDs are exactly 11 characters of alphanumeric, dash, or underscore. */
+const YOUTUBE_KEY_REGEX = /^[a-zA-Z0-9_-]{11}$/;
+
+/** Validates that a string is a safe YouTube video ID. */
+export function isValidYoutubeKey(key: string): boolean {
+  return YOUTUBE_KEY_REGEX.test(key);
+}
+
+/** Filters videos to trailers and teasers with valid YouTube keys only. */
+function filterTrailers(videos: MovieVideo[]): MovieVideo[] {
+  return videos.filter(
+    (v) => TRAILER_TYPES.has(v.type) && isValidYoutubeKey(v.youtubeKey),
+  );
+}
+
+/** Fetches YouTube videos for a movie, filtered to trailers and teasers. */
+export function useMovieVideos(id: number) {
+  return useQuery({
+    queryKey: ["movies", "videos", id],
+    queryFn: () => fetchMovieVideos(id),
+    enabled: id > 0,
+    select: filterTrailers,
+  });
+}
+
+/** Fetches similar movies for a given movie. */
+export function useSimilarMovies(id: number) {
+  return useQuery({
+    queryKey: ["movies", "similar", id],
+    queryFn: () => fetchSimilarMovies(id),
+    enabled: id > 0,
   });
 }
 

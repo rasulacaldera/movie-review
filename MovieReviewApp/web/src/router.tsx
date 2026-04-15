@@ -6,7 +6,7 @@ const HomePage = lazy(() => import("~/pages/HomePage.js"));
 const ComingSoonPage = lazy(() => import("~/pages/ComingSoonPage.js"));
 const TopRatedPage = lazy(() => import("~/pages/TopRatedPage.js"));
 const PopularPage = lazy(() => import("~/pages/PopularPage.js"));
-const MovieDetailPage = lazy(() => import("~/pages/MovieDetailPage.js"));
+const MovieDetailPage = lazy(() => import("~/pages/MovieDetailPage/index.js"));
 const SearchPage = lazy(() => import("~/pages/SearchPage.js"));
 const NotFoundPage = lazy(() => import("~/pages/NotFoundPage.js"));
 

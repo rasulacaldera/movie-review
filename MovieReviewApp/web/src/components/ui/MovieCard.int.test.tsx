@@ -60,6 +60,20 @@ describe("<MovieCard/>", () => {
     });
   });
 
+  describe("when year is null", () => {
+    it("displays TBA instead of a year", () => {
+      renderMovieCard({ year: null });
+
+      expect(screen.getByText("TBA")).toBeInTheDocument();
+    });
+
+    it("uses TBA in the aria-label", () => {
+      renderMovieCard({ year: null, title: "Unknown" });
+
+      expect(screen.getByLabelText("Unknown (TBA)")).toBeInTheDocument();
+    });
+  });
+
   describe("when clicking the movie card", () => {
     it("links to the movie detail route", () => {
       renderMovieCard({ tmdbId: 550 });

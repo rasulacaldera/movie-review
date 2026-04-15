@@ -13,12 +13,31 @@ const imageConfig = {
   backdropSizes: ["w1280"],
 };
 
+const movieDetail = {
+  tmdbId: 550,
+  title: "Fight Club",
+  year: 1999,
+  synopsis: "A movie about fight club.",
+  genres: ["Drama"],
+  runtime: 139,
+  releaseDate: "1999-10-15",
+  posterPath: "/poster.jpg",
+  backdropPath: "/backdrop.jpg",
+  tmdbRating: 8.4,
+};
+
 const server = setupServer(
   http.get("/api/movies/popular", () => HttpResponse.json(emptyPaginated)),
   http.get("/api/movies/now-playing", () => HttpResponse.json(emptyPaginated)),
   http.get("/api/movies/upcoming", () => HttpResponse.json(emptyPaginated)),
   http.get("/api/movies/top-rated", () => HttpResponse.json(emptyPaginated)),
   http.get("/api/movies/configuration", () => HttpResponse.json(imageConfig)),
+  http.get("/api/movies/:id/credits", () =>
+    HttpResponse.json({ cast: [], director: null }),
+  ),
+  http.get("/api/movies/:id/videos", () => HttpResponse.json([])),
+  http.get("/api/movies/:id/similar", () => HttpResponse.json(emptyPaginated)),
+  http.get("/api/movies/:id", () => HttpResponse.json(movieDetail)),
 );
 
 beforeAll(() => server.listen({ onUnhandledRequest: "bypass" }));
@@ -92,7 +111,7 @@ describe("Route stubs", () => {
 
       await waitFor(() => {
         expect(
-          screen.getByRole("heading", { name: "Movie Detail" }),
+          screen.getByRole("heading", { name: "Fight Club" }),
         ).toBeInTheDocument();
       });
     });

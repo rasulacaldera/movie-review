@@ -80,11 +80,13 @@ export function normalizeMovieDetail(detail: TmdbMovieDetail): MovieDetail {
 
 /** Normalize a single TMDB cast member. */
 function normalizeCastMember(member: {
+  cast_id: number;
   name: string;
   character: string;
   profile_path: string | null;
 }): CastMember {
   return {
+    id: member.cast_id,
     name: member.name,
     character: member.character,
     profilePath: member.profile_path,

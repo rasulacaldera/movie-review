@@ -9,8 +9,8 @@ interface MovieCardProps {
   tmdbId: number;
   /** Movie title. */
   title: string;
-  /** Release year. */
-  year: number;
+  /** Release year, or null when unknown. */
+  year: number | null;
   /** TMDB poster path (e.g. "/abc.jpg"), or null if no poster. */
   posterPath: string | null;
   /** TMDB average rating (0-10). */
@@ -32,7 +32,7 @@ export function MovieCard({
         "group block overflow-hidden rounded-lg bg-card transition-transform hover:scale-[1.02]",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
       )}
-      aria-label={`${title} (${year})`}
+      aria-label={`${title} (${year ?? "TBA"})`}
     >
       <div className="relative aspect-[2/3] w-full overflow-hidden rounded-t-lg bg-muted">
         {posterPath ? (
@@ -59,7 +59,7 @@ export function MovieCard({
         <h3 className="truncate text-sm font-semibold text-foreground group-hover:text-primary">
           {title}
         </h3>
-        <p className="text-xs text-muted-foreground">{year}</p>
+        <p className="text-xs text-muted-foreground">{year ?? "TBA"}</p>
       </div>
     </Link>
   );

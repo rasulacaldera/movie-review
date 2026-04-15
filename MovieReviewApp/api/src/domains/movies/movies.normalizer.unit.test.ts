@@ -187,11 +187,13 @@ describe("movies.normalizer", () => {
     const rawCredits: TmdbCreditsResponse = {
       cast: [
         {
+          cast_id: 4,
           name: "Brad Pitt",
           character: "Tyler Durden",
           profile_path: "/profile.jpg",
         },
         {
+          cast_id: 5,
           name: "Edward Norton",
           character: "The Narrator",
           profile_path: null,
@@ -204,15 +206,17 @@ describe("movies.normalizer", () => {
     };
 
     describe("when given a raw TMDB credits response", () => {
-      it("normalizes cast members with name, character, and profilePath", () => {
+      it("normalizes cast members with id, name, character, and profilePath", () => {
         const result = normalizeCredits(rawCredits);
         expect(result.cast).toEqual([
           {
+            id: 4,
             name: "Brad Pitt",
             character: "Tyler Durden",
             profilePath: "/profile.jpg",
           },
           {
+            id: 5,
             name: "Edward Norton",
             character: "The Narrator",
             profilePath: null,
@@ -229,7 +233,7 @@ describe("movies.normalizer", () => {
     describe("when no director is in the crew", () => {
       it("returns null for director", () => {
         const credits: TmdbCreditsResponse = {
-          cast: [],
+          cast: [] as TmdbCreditsResponse["cast"],
           crew: [
             { name: "Jim Uhls", job: "Screenplay", department: "Writing" },
           ],
